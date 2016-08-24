@@ -3,14 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace print.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            JsonResult data;
+            using (var client = new HttpClient())
+            {
+                var url = "https://testapi.pfl.com/products?apikey=136085";
+                var message = new HttpRequestMessage(HttpMethod.Get, url);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Add("Authorization", "Basic bWluaXByb2plY3Q6UHIhbnQxMjM=");
+                var response = await client.GetStringAsync(url);
+                data = Json(response);
+            }
+            return View(data.Value);
         }
 
         public IActionResult About()
