@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace print.Controllers
 {
@@ -17,10 +18,10 @@ namespace print.Controllers
             {
                 var url = "https://testapi.pfl.com/products?apikey=136085";
                 var message = new HttpRequestMessage(HttpMethod.Get, url);
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic bWluaXByb2plY3Q6UHIhbnQxMjM=");
-                var response = await client.GetStringAsync(url);
-                data = Json(response);
+                var response = await client.GetAsync(url);
+                var info = JsonConvert.DeserializeObjectAsync(response);
             }
             return View(data.Value);
         }
