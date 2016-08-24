@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using print.Models;
 
 namespace print.Controllers
 {
@@ -20,10 +21,10 @@ namespace print.Controllers
                 var message = new HttpRequestMessage(HttpMethod.Get, url);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Authorization", "Basic bWluaXByb2plY3Q6UHIhbnQxMjM=");
-                var response = await client.GetAsync(url);
-                var info = JsonConvert.DeserializeObjectAsync(response);
+                string response = await client.GetStringAsync(url);
+                RootObject deserialized = JsonConvert.DeserializeObject<RootObject>(response);
             }
-            return View(data.Value);
+            return View();
         }
 
         public IActionResult About()
