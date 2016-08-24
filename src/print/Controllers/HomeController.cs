@@ -7,6 +7,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using print.Models;
+using print.Helpers;
 
 namespace print.Controllers
 {
@@ -14,17 +15,9 @@ namespace print.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            JsonResult data;
-            using (var client = new HttpClient())
-            {
-                var url = "https://testapi.pfl.com/products?apikey=136085";
-                var message = new HttpRequestMessage(HttpMethod.Get, url);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Add("Authorization", "Basic bWluaXByb2plY3Q6UHIhbnQxMjM=");
-                string response = await client.GetStringAsync(url);
-                RootObject deserialized = JsonConvert.DeserializeObject<RootObject>(response);
-            }
-            return View();
+            APIHelper api = new APIHelper("products");
+            RootObject result = await api.GetProducts();
+            return View(result);
         }
 
         public IActionResult About()

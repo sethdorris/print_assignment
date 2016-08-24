@@ -1,8 +1,4 @@
-﻿@model string
-<script>
-    var data =
-    console.log(data);
-</script>
+﻿@model print.Models.RootObject
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
     <ol class="carousel-indicators">
@@ -107,5 +103,14 @@
             <li><a href="http://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
             <li><a href="http://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
         </ul>
+    </div>
+    <div>
+        @foreach (var item in Model.results.data)
+        {
+            <ul>
+                <li>@item.name</li>
+            </ul>
+
+        }
     </div>
 </div>
