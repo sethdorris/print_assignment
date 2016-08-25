@@ -1,0 +1,36 @@
+﻿@model print.Models.Datum
+@using print.Models
+
+<div class="row">
+    <h1>@Model.name</h1>
+    <div class="thumbnail" style="background-image: url('@Model.imageURL')">
+
+    </div>
+    <div class="content">
+        <ul>
+            <li>@Model.description</li>
+        </ul>
+    </div>
+</div>
+
+@using (Html.BeginForm("OrderForm", "Home")) {
+    var order = new OrderRoot();
+    order.items = new List<Item>();
+    order.shipments = new List<Shipment>();
+    var items = new Item();
+    var itemship = new ItemShipment();
+    var shipment = new Shipment();
+    @Html.Label("First Name");
+    @Html.TextBoxFor(m => order.orderCustomer.firstName);
+    @Html.TextBoxFor(m => order.orderCustomer.lastName);
+    @Html.TextBoxFor(m => order.orderCustomer.email);
+    @Html.TextBoxFor(m => order.orderCustomer.countryCode);
+    @Html.TextBoxFor(m => items.quantity);
+    @Html.TextBoxFor(m => shipment.countryCode);
+    shipment.shipmentSequenceNumber = 1;
+    itemship.itemSequenceNumber = 1;
+    itemship.shipmentSequenceNumber = 1;
+    items.productID = Model.productID;
+    order.items.Add(items);
+    order.shipments.Add(shipment);
+ }

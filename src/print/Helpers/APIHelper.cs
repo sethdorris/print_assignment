@@ -40,5 +40,13 @@ namespace print.Helpers
             RootObject deserialized = JsonConvert.DeserializeObject<RootObject>(response);
             return deserialized;
         }
+
+        public async Task<Datum> GetProduct(int pid)
+        {
+            string response = await Client.GetStringAsync(RequestUrl);
+            RootObject deserialized = JsonConvert.DeserializeObject<RootObject>(response);
+            Datum product = deserialized.results.data.Find(o => o.id == pid);
+            return product;
+        }
     }
 }

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using print.Models;
 using print.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace print.Controllers
 {
@@ -20,9 +21,16 @@ namespace print.Controllers
             return View(result);
         }
 
-        public IActionResult About()
+        public async Task<IActionResult> Order(int productId)
         {
-            ViewData["Message"] = "Your application description page.";
+            APIHelper api = new Helpers.APIHelper("products");
+            Datum result = await api.GetProduct(productId);
+
+            return View(result);
+        }
+
+        public async Task<IActionResult> PlaceOrder(OrderRoot OrderForm)
+        {
 
             return View();
         }

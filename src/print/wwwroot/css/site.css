@@ -36,3 +36,28 @@ textarea {
     display: none
   }
 }
+
+.product-parent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.product-div {
+    height: 300px;
+    width:30%;
+    margin-top: 10px;
+}
+
+.product-thumbnail {
+    text-align:center;
+    height: 175px;
+    border: 1px solid gray;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.product-div li {
+    list-style-type: none;
+}
