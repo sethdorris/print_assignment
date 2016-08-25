@@ -15,5 +15,15 @@ namespace print.Models
         public List<ItemShipment> itemShipments { get; set; }
         public List<Webhook> webhooks { get; set; }
         public List<BillingVariable> billingVariables { get; set; }
+
+        public OrderRoot()
+        {
+            items = new List<Item>();
+            shipments = new List<Shipment>();
+            payments = new List<Payment>();
+            itemShipments = new List<ItemShipment>();
+            webhooks = new List<Webhook>();
+            billingVariables = new List<BillingVariable>();
+        }
     }
 }

@@ -3,8 +3,10 @@ using print.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace print.Helpers
@@ -47,6 +49,14 @@ namespace print.Helpers
             RootObject deserialized = JsonConvert.DeserializeObject<RootObject>(response);
             Datum product = deserialized.results.data.Find(o => o.id == pid);
             return product;
+        }
+
+        public async Task<HttpStatusCode> PlaceOrder(OrderRoot order)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RequestUrl);
+            request.Content = new StringContent(order.ToString(), Encoding.UTF8, "application/json");
+            var response = await Client.PostAsync(RequestUrl, request.Content);
+            return response.StatusCode;
         }
     }
 }

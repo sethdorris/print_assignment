@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using print.Models;
 using print.Helpers;
 using Microsoft.AspNetCore.Http;
+using System.Net;
 
 namespace print.Controllers
 {
@@ -23,15 +24,17 @@ namespace print.Controllers
 
         public async Task<IActionResult> Order(int productId)
         {
-            APIHelper api = new Helpers.APIHelper("products");
+            APIHelper api = new APIHelper("products");
             Datum result = await api.GetProduct(productId);
-
-            return View(result);
+            OrderViewModel viewModel = new OrderViewModel();
+            viewModel.Datum = result;
+            return View(viewModel);
         }
 
-        public async Task<IActionResult> PlaceOrder(OrderRoot OrderForm)
+        public async Task<IActionResult> PlaceOrder(OrderViewModel OrderForm)
         {
-
+            APIHelper api = new APIHelper("orders");
+            HttpStatusCode result = await api.PlaceOrder(OrderForm.OrderRoot);
             return View();
         }
 
