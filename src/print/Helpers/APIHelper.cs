@@ -53,9 +53,10 @@ namespace print.Helpers
 
         public async Task<HttpStatusCode> PlaceOrder(OrderRoot order)
         {
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RequestUrl);
-            request.Content = new StringContent(order.ToString(), Encoding.UTF8, "application/json");
-            var response = await Client.PostAsync(RequestUrl, request.Content);
+            var request = JsonConvert.SerializeObject(order);
+            var content = new StringContent(request, Encoding.UTF8, "application/json");
+            var response = await Client.PostAsync(RequestUrl, content);
+            string result = await response.Content.ReadAsStringAsync();
             return response.StatusCode;
         }
     }
