@@ -47,17 +47,21 @@ namespace print.Helpers
         {
             string response = await Client.GetStringAsync(RequestUrl);
             RootObject deserialized = JsonConvert.DeserializeObject<RootObject>(response);
-            Datum product = deserialized.results.data.Find(o => o.id == pid);
+            Datum product = deserialized.results.data.Find(o => o.productID == pid);
             return product;
         }
 
-        public async Task<HttpStatusCode> PlaceOrder(OrderRoot order)
+        public async Task<print.Models.OrderConfirm.RootObject> PlaceOrder(OrderRoot order)
         {
+            order.items[0].itemSequenceNumber = 1;
+            order.shipments[0].shipmentSequenceNumber = 1;
+            order.items[0].productionDays = 1;
             var request = JsonConvert.SerializeObject(order);
             var content = new StringContent(request, Encoding.UTF8, "application/json");
             var response = await Client.PostAsync(RequestUrl, content);
             string result = await response.Content.ReadAsStringAsync();
-            return response.StatusCode;
+            var deserialized = JsonConvert.DeserializeObject<print.Models.OrderConfirm.RootObject>(result);
+            return deserialized;
         }
     }
 }

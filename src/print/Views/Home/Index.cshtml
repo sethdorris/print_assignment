@@ -72,14 +72,14 @@
             </div>
             <div>
                 <ul>
-                    <li>@item.name</li>
-                    <li>@item.description</li>
-                    <li>@item.</li>
+                    <li>Product Name: @item.name</li>
+                    <li>Price: $@item.deliveredPrices[0].price</li>
+                    <li>Quantity: @item.quantityMinimum</li>
                 </ul>
             </div>
             <div class="row">
-                <div class="col-md-offset-2">
-                    <button class="btn btn-sm btn-primary">@Html.ActionLink("Order", "Order", new { productid = item.id } )</button>
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-sm btn-primary">@Html.ActionLink("Order", "Order", new { productId = item.productID } )</button>
                 </div>
             </div>
         </div>

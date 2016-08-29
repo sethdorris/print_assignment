@@ -1,10 +1,8 @@
 ﻿@model print.Models.OrderViewModel
 
-<div class="row">
+<div class="row text-center">
     <h1>@Model.Datum.name</h1>
-    <div class="thumbnail" style="background-image: url('@Model.Datum.imageURL')">
-
-    </div>
+    <img src=@Model.Datum.imageURL />
     <div class="content">
         <ul>
             <li>@Model.Datum.description</li>
@@ -12,12 +10,56 @@
     </div>
 </div>
 
-@using (Html.BeginForm("PlaceOrder", "Home", FormMethod.Post))
+@using (Html.BeginForm("PlaceOrder", "Home", new { productId = Model.Datum.productID}))
 {
-    @Html.TextBoxFor(m => m.OrderRoot.orderCustomer.firstName);
-    @Html.TextBoxFor(m => m.OrderRoot.items[0].quantity);
-    @Html.TextBoxFor(m => m.OrderRoot.orderCustomer.countryCode);
-    @Html.TextBoxFor(m => m.OrderRoot.shipments[0].countryCode);
-    @Html.TextBoxFor(m => m.OrderRoot.orderCustomer.email);
-    <input type="submit" value="Place Order" />
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Order Form</h2>
+            <div class="form-group">
+                <h4>Customer and Order Information</h4>
+                @Html.LabelFor(m => m.OrderRoot.items[0].quantity, "Quantity")
+                @Html.TextBoxFor(m => m.OrderRoot.items[0].quantity, null, new { @class = "form-control orderform", type = "number", required = "true" })
+                @Html.ValueFor(m => m.OrderRoot.items[0].productID, Model.Datum.productID.ToString())
+            </div>
+        </div>
+    </div>
+        <div class="form-group row">
+            <div class="col-md-6">
+                <h4>Billing Information</h4>
+                <div class="input-group">
+                    <div>
+                        @Html.LabelFor(m => m.OrderRoot.orderCustomer.firstName, "First Name")
+                        @Html.TextBoxFor(m => m.OrderRoot.orderCustomer.firstName, null, new { @class = "form-control orderform" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(m => m.OrderRoot.orderCustomer.email, "Email")
+                        @Html.TextBoxFor(m => m.OrderRoot.orderCustomer.email, null, new { @class = "form-control orderform" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(m => m.OrderRoot.orderCustomer.countryCode, "Billing Country")
+                        @Html.TextBoxFor(m => m.OrderRoot.orderCustomer.countryCode, null, new { @class = "form-control orderform" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(m => m.OrderRoot.orderCustomer.state, "State")
+                        @Html.TextBoxFor(m => m.OrderRoot.orderCustomer.state, null, new { @class = "form-control orderform" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h4>Shipping Information</h4>
+                    <div class="input-group">
+                        <div>
+                            @Html.LabelFor(m => m.OrderRoot.shipments[0].state, "State")
+                            @Html.TextBoxFor(m => m.OrderRoot.shipments[0].state, null, new { @class = "form-control orderform" })
+                        </div>
+                        <div>
+                            @Html.LabelFor(m => m.OrderRoot.shipments[0].countryCode, "Shipping Country")
+                            @Html.TextBoxFor(m => m.OrderRoot.shipments[0].countryCode, null, new { @class = "form-control orderform" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-success" value="Place Order" />
 }

@@ -31,17 +31,17 @@ namespace print.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> PlaceOrder(OrderViewModel OrderForm)
+        public async Task<IActionResult> PlaceOrder(OrderViewModel OrderForm, int productId)
         {
             APIHelper api = new APIHelper("orders");
-            HttpStatusCode result = await api.PlaceOrder(OrderForm.OrderRoot);
-            return View();
+            OrderForm.OrderRoot.items[0].productID = productId;
+            print.Models.OrderConfirm.RootObject result = await api.PlaceOrder(OrderForm.OrderRoot);
+            return RedirectToAction("Success", "Home", new { result = result.results.data.orderNumber });
         }
 
-        public IActionResult Contact()
+        public IActionResult Success(string result)
         {
-            ViewData["Message"] = "Your contact page.";
-
+            ViewBag.OrderNum = result;
             return View();
         }
 

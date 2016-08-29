@@ -47,12 +47,13 @@ textarea {
     height: 300px;
     width:30%;
     margin-top: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
 }
 
 .product-thumbnail {
     text-align:center;
     height: 175px;
-    border: 1px solid gray;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -60,4 +61,25 @@ textarea {
 
 .product-div li {
     list-style-type: none;
+    margin: 0 auto;
+}
+
+.product-div ul {
+    margin: 15px;
+    padding: 0;
+}
+
+.orderform {
+    display: inline-block;
+}
+
+a {
+    color: white;
+}
+
+.splash {
+    background-image: url('../images/pflsplash.jpg');
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
 }
